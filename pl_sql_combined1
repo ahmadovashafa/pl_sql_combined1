@@ -1,0 +1,74 @@
+PL/SQL Combined  #1
+1.Task: Write an anonymous block that checks if v_salary of employee with employee_id 105 is greater than 5000. If true, print "High Salary," otherwise print "Low Salary."
+
+DECLARE
+   v_salary NUMBER;
+BEGIN
+   SELECT salary INTO v_salary FROM employees WHERE employee_id = 105;
+   if v_salary>5000 then
+       DBMS_OUTPUT.PUT_LINE('High salary ');
+    else
+        DBMS_OUTPUT.PUT_LINE('Low salary ');
+end if;
+END;
+
+2.Task: Write an anonymous block that calculates the v_duration in years for the difference between the start_date and end_date of the job_history for employee_id 103.
+
+DECLARE
+   v_duration NUMBER;
+BEGIN
+   BEGIN
+       SELECT end_date - start_date INTO v_duration FROM job_history WHERE employee_id = 103;
+   
+       v_duration := v_duration / 365; 
+
+       DBMS_OUTPUT.PUT_LINE(v_duration);
+   exception 
+       when no_data_found then
+           DBMS_OUTPUT.PUT_LINE('No job history found for employee_id 103.');
+   end;
+end;
+
+
+3.Task: Write an anonymous block that uses a CASE statement to determine the v_department for employee with employee_id 110 based on their job ID. Print the determined department.
+DECLARE
+   v_department VARCHAR2(30);
+   v_job_id VARCHAR2(10);
+BEGIN
+   SELECT job_id INTO v_job_id FROM employees WHERE employee_id = 110;
+
+   v_department := 
+       case v_job_id
+           when 'IT_PROG' then 'IT Department'
+           when 'SA_REP' then 'Sales Department'
+           else 'Unknown Department'
+       end;
+
+   DBMS_OUTPUT.PUT_LINE('Department: ' || v_department);
+end;
+
+4.Task: Write an anonymous block that uses a loop to calculate the factorial of v_number (e.g., 5! = 5 * 4 * 3 * 2 * 1) and prints the result.
+
+DECLARE
+   v_number NUMBER := 5;
+   v_factorial NUMBER := 1;
+begin
+   for i in 1..v_number loop
+       v_factorial := v_factorial * i;
+   end loop;
+
+   DBMS_OUTPUT.PUT_LINE('Factorial of ' || v_number || ' is: ' || v_factorial);
+end;
+
+5.Task: Write an anonymous block that retrieves the v_manager_name of the manager for employee with employee_id 120. If the manager is not assigned, print "No Manager."
+DECLARE
+   v_manager_name VARCHAR2(50);
+BEGIN
+   SELECT first_name || ' ' || last_name INTO v_manager_name FROM employees WHERE employee_id = 120;
+   if v_manager_name is not null then
+      DBMS_OUTPUT.PUT_LINE('manager' || v_manager_name);
+    else
+    DBMS_OUTPUT.PUT_LINE('No manager');
+end if;
+END;
+
